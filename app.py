@@ -1,0 +1,18 @@
+from flask import Flask, Response, render_template, request
+import time
+from interpretator import run_program
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/run", methods=["POST"])
+def run():
+    code = request.form["code"].splitlines()
+    print("Running code:", code)
+    #output = run_program(code)
+    return Response(run_program(code), mimetype='text/event-stream')
+
+if __name__ == "__main__":
+    app.run(debug=True)
