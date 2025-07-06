@@ -4,7 +4,6 @@ import os
 from interpretator import run_program
 app = Flask(__name__)
 port = int(os.environ.get("PORT", 5000))
-app.run(host='0.0.0.0', port=port)
 
 @app.route("/")
 def home():
@@ -18,4 +17,4 @@ def run():
     return Response(run_program(code), mimetype='text/event-stream')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=port)
