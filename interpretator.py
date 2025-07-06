@@ -57,18 +57,14 @@ def run_program(lines):
                 else:
                     # It's a variable or expression, so replace variables and evaluate
                     print("Processing expression:", variables)
-                    tokens = re.findall(r'\b[a-zA-Z_]\w*\b', expr)
-                    print("Tokens found:", tokens)
-                    for token in tokens:
-                        if token not in variables:
-                            raise Exception(f"☠️ Variable '{token}' defined nahi hai!")
-                        expr = re.sub(rf'\b{token}\b', str(variables[token]), expr)
                     try:
-                        print("Evaluating expression:", expr)
-                        result = eval(expr)
-                        yield "\n" + str(result)
+                        result = get_variable_value(expr, variables)
+                        print("Evaluated result:", str(result))
+                        if result is not None:
+                            yield "\n" + str(result)
                     except Exception as e:
                         yield f"\n⚠️ Error: {e}"
+                    
 
             elif line.startswith("assignTask"):
                 parts = line.split()
@@ -170,23 +166,26 @@ def run_program(lines):
 
             elif line.startswith("chalo meeting kre"):
                 parts = line.split()
-                count = int(parts[3])
-                loop_lines = []
-                i += 1
-                while lines[i] != "finally over huyi":
-                    loop_lines.append(lines[i])
+                try:
+                    count = get_variable_value(parts[3], variables)
+                    loop_lines = []
                     i += 1
-                for _ in range(count):
-                    #run_program_from_lines(loop_lines)
-                    iloop = 0
-                    while iloop < len(loop_lines):
-                        loop_line = loop_lines[iloop]
-                        if loop_line.startswith("reportKaro") and should_execute():
-                            start = loop_line.find('"') + 1
-                            end = loop_line.rfind('"')
-                            yield ("\n" +loop_line[start:end])
-                        iloop += 1
-                #i += 1
+                    while lines[i] != "finally over huyi":
+                        loop_lines.append(lines[i].strip())
+                        i += 1
+                    for _ in range(count):
+                        #run_program_from_lines(loop_lines)
+                        iloop = 0
+                        while iloop < len(loop_lines):
+                            loop_line = loop_lines[iloop]
+                            if loop_line.startswith("reportKaro") and should_execute():
+                                start = loop_line.find('"') + 1
+                                end = loop_line.rfind('"')
+                                yield ("\n" +loop_line[start:end])
+                            iloop += 1
+                    #i += 1
+                except Exception as e:
+                    yield ("\n⚠️ Error: " + str(e))
 
             elif line.startswith("tea break"):
                 parts = line.split()
@@ -209,6 +208,20 @@ def run_program(lines):
         yield ("\n\n🌟 Program execution complete. Tera promotion pakka")
     except Exception as e:
         yield ("<b>"+str(e)+ "\nManager dekhe usse pehle fix kr!</b>")
+
+def get_variable_value(expr, variables):
+    tokens = re.findall(r'\b[a-zA-Z_]\w*\b', expr)
+    print("Tokens found:", tokens)
+    for token in tokens:
+        if token not in variables:
+            raise Exception(f"☠️ Variable '{token}' defined nahi hai!")
+        expr = re.sub(rf'\b{token}\b', str(variables[token]), expr)
+    try:
+        print("Evaluating expression:", expr)
+        result = eval(expr)
+        return result
+    except Exception as e:
+        raise Exception(f"\n⚠️ Error: {e}")
 
 def run_program_from_lines(lines):
     global manager_mood
