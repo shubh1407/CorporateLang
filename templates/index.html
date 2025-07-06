@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Apni Language Interpreter</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #f3f4f6;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h2 {
+      color: #333;
+      font-size: 36px;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 800px;
+      margin-bottom: 30px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      height: 300px;
+      margin-bottom: 20px;
+      background: #f9fafb;
+    }
+
+    input[type="submit"] {
+      background: #2563eb;
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background: #1d4ed8;
+    }
+
+    h3 {
+      font-size: 24px;
+      margin: 20px 0 10px;
+      color: #333;
+    }
+
+    pre {
+      background: #0f172a;
+      color: #f1f5f9;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      width: 100%;
+      max-width: 800px;
+      min-height: 150px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 600px) {
+      textarea {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📝 Apni Language Interpreter</h2>
+
+  <form id="codeForm" action="/run" method="post">
+    <textarea id="code" name="code" placeholder="Apna code yahan likho..."></textarea>
+    <input type="submit" value="⚡ Run">
+  </form>
+
+  <h3>📤 Output:</h3>
+  <pre id="output">Code output will appear here...</pre>
+
+  <script>
+    document.getElementById("codeForm").onsubmit = async function(e) {
+      e.preventDefault();
+      document.getElementById("output").innerText = "";
+
+      const formData = new FormData(document.getElementById("codeForm"));
+
+      const response = await fetch("/run", {
+        method: "POST",
+        body: formData
+      });
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        document.getElementById("output").innerHTML += decoder.decode(value);
+      }
+    };
+  </script>
+
+</body>
+</html>
