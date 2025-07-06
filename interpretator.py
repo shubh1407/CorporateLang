@@ -174,7 +174,7 @@ def run_program(lines):
                 loop_lines = []
                 i += 1
                 while lines[i] != "finally over huyi":
-                    loop_lines.append(lines[i].strip())
+                    loop_lines.append(lines[i])
                     i += 1
                 for _ in range(count):
                     #run_program_from_lines(loop_lines)
