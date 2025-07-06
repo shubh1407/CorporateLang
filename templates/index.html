@@ -3,146 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <title>Apni Language Interpreter</title>
-  <style>
+   <style>
     body {
-  background: #f3f4f6;
-  padding: 40px;
-  font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+      background: #f3f4f6;
+      padding: 40px;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-h2 {
-  font-size: 36px;
-  margin-bottom: 20px;
-}
+    h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
 
-.instructions, form {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 800px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  margin-bottom: 30px;
-  width: 100%;
-}
+    .instructions {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 800px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
 
-.instructions h3, .examples h3 {
-  margin-bottom: 12px;
-  font-size: 24px;
-}
+    .instructions h3 {
+      margin-bottom: 12px;
+      font-size: 24px;
+    }
 
-.instructions ul {
-  padding-left: 20px;
-}
+    .instructions p {
+      margin-bottom: 10px;
+    }
 
-.instructions ul li {
-  margin-bottom: 8px;
-}
+    .demo-code {
+      background: #0f172a;
+      color: #f1f5f9;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: monospace;
+      white-space: pre-wrap;
+      margin-bottom: 20px;
+    }
 
-.examples {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  max-width: 1000px;
-  margin: 50px auto;
-}
+    form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
 
-.example-card {
-  background: #1e293b;
-  color: #e2e8f0;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-  border-bottom: 1px solid #334155;
-  transition: 0.2s ease;
-}
+    textarea {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      height: 300px;
+      background: #f9fafb;
+      margin-bottom: 20px;
+    }
 
-.example-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.4);
-}
+    input[type="submit"],
+    button {
+      background: #2563eb;
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-right: 10px;
+    }
 
-.example-card h4 {
-  margin-bottom: 12px;
-  font-size: 18px;
-  color: #facc15;
-}
+    input[type="submit"]:hover,
+    button:hover {
+      background: #1d4ed8;
+    }
 
-.example-card pre {
-  background: #0f172a;
-  color: #f1f5f9;
-  padding: 12px;
-  border-radius: 8px;
-  overflow-x: auto;
-  font-family: monospace;
-  white-space: pre-wrap;
-  font-size: 13px;
-  margin-bottom: 10px;
-}
-
-.copy-btn {
-  background: #22c55e;
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  align-self: flex-end;
-  transition: background 0.3s ease;
-}
-
-.copy-btn:hover {
-  background: #16a34a;
-}
-
-textarea {
-  width: 100%;
-  padding: 15px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  resize: vertical;
-  height: 300px;
-  background: #f9fafb;
-  margin-bottom: 20px;
-}
-
-input[type="submit"] {
-  background: #2563eb;
-  color: white;
-  padding: 14px 28px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-input[type="submit"]:hover {
-  background: #1d4ed8;
-}
-
-#output {
-  background: #0f172a;
-  color: #f1f5f9;
-  padding: 20px;
-  border-radius: 8px;
-  overflow-x: auto;
-  max-width: 800px;
-  width: 100%;
-  white-space: pre-wrap;
-  min-height: 150px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-@media (max-width: 700px) {
-  .examples {
-    grid-template-columns: 1fr;
-  }
-}
-
+    #output {
+      background: #0f172a;
+      color: #f1f5f9;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      max-width: 800px;
+      width: 100%;
+      white-space: pre-wrap;
+      min-height: 150px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
   </style>
 </head>
 <body>
@@ -151,11 +107,9 @@ input[type="submit"]:hover {
 
   <div class="instructions">
     <h3>📖 Instructions:</h3>
-    <ul>
-      <li>Write or paste your code in <b>Apni Language</b> in the text area below.</li>
-      <li>Click the <b>Run</b> button to execute the code and see the output below.</li>
-      <li>A demo code example is provided below — you can copy it and try running it.</li>
-    </ul>
+      <p>➡️ Write or paste your code in <b>Apni Language</b> in the text area below.</p>
+      <p>➡️ Click the <b>Run</b> button to execute the code and see the output below.</p>
+      <p>➡️ A demo code example is provided below — you can copy it and try running it.</p>
   </div>
 
   <form id="codeForm" action="/run" method="post">
