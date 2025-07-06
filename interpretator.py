@@ -38,8 +38,8 @@ def run_program(lines):
 
         i = 0
         while i < len(lines):
-            line = lines[i]
-
+            code = lines[i]
+            line = code.strip()
             if line == "day start" :
                 i += 1
                 yield ("\n🌅 Day started. Ho gaya siyapa start")
@@ -78,13 +78,15 @@ def run_program(lines):
                         raise Exception(f"☠️ Variable '{token}' defined nahi hai!")
                     if token in variables:
                         condition = re.sub(rf'\b{token}\b', str(variables[token]), condition)
+                print("Evaluating condition:", condition)
                 result = eval(condition)
+                print("Condition result:", result)
                 block_stack.append({"type": "if", "executing": True, "matched": result})
 
             elif line == "nahi":
                 if block_stack and block_stack[-1]["type"] == "if":
-                    current = block_stack.pop()
-                    block_stack.append({"type": "else", "executing": not current["executing"], "matched": not current["matched"]})
+                    current = block_stack.pop() 
+                    block_stack.append({"type": "else", "executing": current["executing"], "matched":not current["matched"]})
                 else:
                     raise Exception("☠️ 'nahi' bina 'agar' ke laga diya!")
 

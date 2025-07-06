@@ -4,36 +4,57 @@
   <meta charset="UTF-8">
   <title>Apni Language Interpreter</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
     body {
       background: #f3f4f6;
       padding: 40px;
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh;
     }
 
     h2 {
-      color: #333;
       font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .instructions {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 800px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       margin-bottom: 30px;
+    }
+
+    .instructions h3 {
+      margin-bottom: 12px;
+      font-size: 24px;
+    }
+
+    .instructions p {
+      margin-bottom: 10px;
+    }
+
+    .demo-code {
+      background: #0f172a;
+      color: #f1f5f9;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: monospace;
+      white-space: pre-wrap;
+      margin-bottom: 20px;
     }
 
     form {
       background: #fff;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      width: 100%;
       max-width: 800px;
-      margin-bottom: 30px;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
     }
 
     textarea {
@@ -44,11 +65,12 @@
       border-radius: 8px;
       resize: vertical;
       height: 300px;
-      margin-bottom: 20px;
       background: #f9fafb;
+      margin-bottom: 20px;
     }
 
-    input[type="submit"] {
+    input[type="submit"],
+    button {
       background: #2563eb;
       color: white;
       padding: 14px 28px;
@@ -57,34 +79,25 @@
       font-size: 16px;
       cursor: pointer;
       transition: background 0.3s ease;
+      margin-right: 10px;
     }
 
-    input[type="submit"]:hover {
+    input[type="submit"]:hover,
+    button:hover {
       background: #1d4ed8;
     }
 
-    h3 {
-      font-size: 24px;
-      margin: 20px 0 10px;
-      color: #333;
-    }
-
-    pre {
+    #output {
       background: #0f172a;
       color: #f1f5f9;
       padding: 20px;
       border-radius: 8px;
       overflow-x: auto;
-      width: 100%;
       max-width: 800px;
+      width: 100%;
+      white-space: pre-wrap;
       min-height: 150px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    @media (max-width: 600px) {
-      textarea {
-        height: 200px;
-      }
     }
   </style>
 </head>
@@ -92,15 +105,38 @@
 
   <h2>📝 Apni Language Interpreter</h2>
 
+  <div class="instructions">
+    <h3>📖 Instructions:</h3>
+    <p>➡️ Write or paste your code in <b>Apni Language</b> in the text area below.</p>
+    <p>➡️ Click the <b>Run</b> button to execute the code and see the output below.</p>
+    <p>➡️ A demo code example is provided below — you can copy it and try running it.</p>
+
+    <h3>🧑‍💻 Demo Code Example:</h3>
+    <div class="demo-code" id="demoCode">
+day start
+agar (5 < 3)
+   gupshup "hello"
+nahi 
+   gupshup "hello today"
+day end
+</div>
+    <button onclick="copyDemo()">📋 Copy Demo Code</button>
+  </div>
+
   <form id="codeForm" action="/run" method="post">
-    <textarea id="code" name="code" placeholder="Apna code yahan likho..."></textarea>
+    <textarea id="code" name="code" placeholder="Yahan apna code likho..."></textarea>
     <input type="submit" value="⚡ Run">
   </form>
 
   <h3>📤 Output:</h3>
-  <pre id="output">Code output will appear here...</pre>
+  <div id="output">Code ka result yahan aayega...</div>
 
   <script>
+    function copyDemo() {
+      const demoText = document.getElementById("demoCode").innerText;
+      document.getElementById("code").value = demoText;
+    }
+
     document.getElementById("codeForm").onsubmit = async function(e) {
       e.preventDefault();
       document.getElementById("output").innerText = "";

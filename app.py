@@ -1,7 +1,9 @@
 from flask import Flask, Response, render_template, request
 import time
+import os
 from interpretator import run_program
 app = Flask(__name__)
+port = int(os.environ.get("PORT", 5000))
 
 @app.route("/")
 def home():
