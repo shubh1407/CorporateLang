@@ -49,15 +49,31 @@ def run_program(lines):
                 yield ("\n🌇 Day ended. Ho gaya siyapa khatam")
                 continue
 
-            if line.startswith("gupshup") and should_execute():
-                start = line.find('"') + 1
-                end = line.rfind('"')
-                yield ("\n" +line[start:end])
+            if line.startswith("reportKaro") and should_execute():
+                expr = line[10:].strip()
+                if expr.startswith('"') and expr.endswith('"'):
+                    # It's a string literal
+                    yield "\n" + expr[1:-1]
+                else:
+                    # It's a variable or expression, so replace variables and evaluate
+                    print("Processing expression:", variables)
+                    tokens = re.findall(r'\b[a-zA-Z_]\w*\b', expr)
+                    print("Tokens found:", tokens)
+                    for token in tokens:
+                        if token not in variables:
+                            raise Exception(f"☠️ Variable '{token}' defined nahi hai!")
+                        expr = re.sub(rf'\b{token}\b', str(variables[token]), expr)
+                    try:
+                        print("Evaluating expression:", expr)
+                        result = eval(expr)
+                        yield "\n" + str(result)
+                    except Exception as e:
+                        yield f"\n⚠️ Error: {e}"
 
-            elif line.startswith("circleBack"):
+            elif line.startswith("assignTask"):
                 parts = line.split()
                 if len(parts) != 4 or parts[2] != "=":
-                    raise Exception("☠️ 'circleBack' ka syntax galat hai!")
+                    raise Exception("☠️ 'assignTask' ka syntax galat hai!")
                 variables[parts[1]] = int(parts[3])
 
             elif line.startswith("manager ka mood kya he"):
@@ -93,7 +109,7 @@ def run_program(lines):
             elif line == "kaam band":
                 block_stack.pop()
 
-            elif line == "switch manager ka mood":
+            elif line == "manager ka mood":
                 block_stack.append({"type": "switch", "executing": True, "matched": False})
 
             elif line.startswith("jab"):
@@ -161,7 +177,15 @@ def run_program(lines):
                     loop_lines.append(lines[i])
                     i += 1
                 for _ in range(count):
-                    run_program_from_lines(loop_lines)
+                    #run_program_from_lines(loop_lines)
+                    iloop = 0
+                    while iloop < len(loop_lines):
+                        loop_line = loop_lines[iloop]
+                        if loop_line.startswith("reportKaro") and should_execute():
+                            start = loop_line.find('"') + 1
+                            end = loop_line.rfind('"')
+                            yield ("\n" +loop_line[start:end])
+                        iloop += 1
                 #i += 1
 
             elif line.startswith("tea break"):
@@ -193,7 +217,7 @@ def run_program_from_lines(lines):
     i = 0
     while i < len(lines):
         line = lines[i]
-        if line.startswith("gupshup") and should_execute():
+        if line.startswith("reportKaro") and should_execute():
             start = line.find('"') + 1
             end = line.rfind('"')
             yield ("\n" +line[start:end])

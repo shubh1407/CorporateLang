@@ -1,39 +1,39 @@
 day start
 
-gupshup "🌞 Good morning team"
-circleBack tas = 3 
+reportKaro "🌞 Good morning team"
+assignTask tas = 3 
 manager ka mood kya he "angry"
-switch manager ka mood
+manager ka mood
   jab "angry"
-    gupshup "👿 Manager gussa me hai"
+    reportKaro "👿 Manager gussa me hai"
   jab "busy"
-    gupshup "📞 Manager busy bol raha"
+    reportKaro "📞 Manager busy bol raha"
   jab "happy"
-    gupshup "😎 Manager bol raha chhutti le lo"
+    reportKaro "😎 Manager bol raha chhutti le lo"
   choro
-    gupshup "😅 Manager ka koi bharosa nahi"
+    reportKaro "😅 Manager ka koi bharosa nahi"
 mood ka the end
 
-circleBack tasks = 5
+assignTask tasks = 5
 agar (tasks > 3)
-  gupshup "📊 Kaam zyada ho gaya"
+  reportKaro "📊 Kaam zyada ho gaya"
 nahi
-  gupshup "👌 Chill maro"
+  reportKaro "👌 Chill maro"
 kaam band
 
 chalo meeting kre 3
-gupshup "👥 Standup ho raha"
+reportKaro "👥 Standup ho raha"
 finally over huyi
 
 client call lagao
-gupshup "🚀 Code deploy kar rahe the"
+reportKaro "🚀 Code deploy kar rahe the"
 issue aa gaya
-gupshup "😶 Ye line nahi chalni chahiye"
+reportKaro "😶 Ye line nahi chalni chahiye"
 client gussa hua
 agar (tasks > 10)
-  gupshup "🔥 Client gussa ho gaya"
+  reportKaro "🔥 Client gussa ho gaya"
 chinta mat kar
-gupshup "😌 Chinta mat kar, fix ho jayega"
+reportKaro "😌 Chinta mat kar, fix ho jayega"
 chinta over
 tea break 10
 

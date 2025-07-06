@@ -47,15 +47,15 @@ def run_program(file_path):
             print("🌇 Day ended. Ho gaya siyapa khatam")
             continue
 
-        if line.startswith("gupshup") and should_execute():
+        if line.startswith("reportKaro") and should_execute():
             start = line.find('"') + 1
             end = line.rfind('"')
             print(line[start:end])
 
-        elif line.startswith("circleBack"):
+        elif line.startswith("assignTask"):
             parts = line.split()
             if len(parts) != 4 or parts[2] != "=":
-                raise Exception("☠️ 'circleBack' ka syntax galat hai!")
+                raise Exception("☠️ 'assignTask' ka syntax galat hai!")
             variables[parts[1]] = int(parts[3])
 
         elif line.startswith("manager ka mood kya he"):
@@ -89,7 +89,7 @@ def run_program(file_path):
         elif line == "kaam band":
             block_stack.pop()
 
-        elif line == "switch manager ka mood":
+        elif line == "manager ka mood":
             block_stack.append({"type": "switch", "executing": True, "matched": False})
 
         elif line.startswith("jab"):
@@ -186,7 +186,7 @@ def run_program_from_lines(lines):
     i = 0
     while i < len(lines):
         line = lines[i]
-        if line.startswith("gupshup") and should_execute():
+        if line.startswith("reportKaro") and should_execute():
             start = line.find('"') + 1
             end = line.rfind('"')
             print(line[start:end])
