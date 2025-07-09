@@ -144,7 +144,53 @@ finally over huyi
 day end</pre>
       <button class="copy-btn" onclick="copyDemo('demo4')">📋 Copy</button>
     </div>
+    
+  <div class="example-card">
+    <h4>🔥 Complex Program</h4>
+    <pre id="demo5">day start
+
+reportKaro "🌞 Good morning team"
+assignTask tas = 3 
+manager ka mood kya he "angry"
+manager ka mood
+  jab "angry"
+    reportKaro "👿 Manager gussa me hai"
+  jab "busy"
+    reportKaro "📞 Manager busy bol raha"
+  jab "happy"
+    reportKaro "😎 Manager bol raha chhutti le lo"
+  choro
+    reportKaro "😅 Manager ka koi bharosa nahi"
+mood ka the end
+
+assignTask tasks = 5
+agar (tasks > 3)
+  reportKaro "📊 Kaam zyada ho gaya"
+nahi
+  reportKaro "👌 Chill maro"
+kaam band
+
+chalo meeting kre 3
+reportKaro "👥 Standup ho raha"
+finally over huyi
+
+client call lagao
+reportKaro "🚀 Code deploy kar rahe the"
+issue aa gaya
+reportKaro "😶 Ye line nahi chalni chahiye"
+client gussa hua
+agar (tasks > 10)
+  reportKaro "🔥 Client gussa ho gaya"
+chinta mat kar
+reportKaro "😌 Chinta mat kar, fix ho jayega"
+chinta over
+tea break 10
+
+day end</pre>
+    <button class="copy-btn" onclick="copyDemo('demo5')">📋 Copy</button>
   </div>
+
+</div>
 
   <script>
     // JavaScript version of your interpreter
@@ -209,7 +255,7 @@ day end</pre>
           }
         } else if (line.startsWith("chalo meeting kre")) {
           const count = parseInt(line.split(" ")[3]);
-          for (let j = 0; j < count; j++) {
+          for (let j = 1; j < count; j++) {
             output += "👥 Standup ho raha\n";
           }
         }
