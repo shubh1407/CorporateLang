@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Corporate Language Interpreter</title>
+  <style>
+    body {
+      background: #f3f4f6;
+      padding: 40px;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h2 { font-size: 36px; margin-bottom: 20px; }
+    .instructions, form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 800px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      width: 100%;
+    }
+    textarea {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      height: 300px;
+      background: #f9fafb;
+      margin-bottom: 20px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background: #1d4ed8; }
+    #output {
+      background: #0f172a;
+      color: #f1f5f9;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 800px;
+      width: 100%;
+      white-space: pre-wrap;
+      min-height: 150px;
+    }
+    .examples {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: 50px auto;
+    }
+    .example-card {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    .example-card h4 { color: #facc15; }
+    .example-card pre {
+      background: #0f172a;
+      color: #f1f5f9;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .copy-btn {
+      background: #22c55e;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>📝 Corporate Language Interpreter</h2>
+  
+  <div class="instructions">
+    <h3>📖 Instructions:</h3>
+    <p>➡️ Write your Corporate Language code below and click Run!</p>
+  </div>
+
+  <form id="codeForm">
+    <textarea id="code" placeholder="Yahan apna code likho..."></textarea>
+    <button type="submit">⚡ Run</button>
+  </form>
+
+  <h3>📤 Output:</h3>
+  <div id="output">Code ka result yahan aayega...</div>
+
+  <h3>🎨 Demo Examples:</h3>
+  <div class="examples">
+    <div class="example-card">
+      <h4>📝 Simple Hello</h4>
+      <pre id="demo1">day start
+reportKaro "Hello duniya!"
+day end</pre>
+      <button class="copy-btn" onclick="copyDemo('demo1')">📋 Copy</button>
+    </div>
+    
+    <div class="example-card">
+      <h4>✅ Condition Example</h4>
+      <pre id="demo2">day start
+agar (5 > 3)
+  reportKaro "5 bada hai 3 se"
+nahi
+  reportKaro "3 bada hai 5 se"
+day end</pre>
+      <button class="copy-btn" onclick="copyDemo('demo2')">📋 Copy</button>
+    </div>
+    
+    <div class="example-card">
+      <h4>📦 Variables</h4>
+      <pre id="demo3">day start
+assignTask x = 10
+assignTask y = 20
+reportKaro x
+reportKaro y
+day end</pre>
+      <button class="copy-btn" onclick="copyDemo('demo3')">📋 Copy</button>
+    </div>
+    
+    <div class="example-card">
+      <h4>🔁 Loop Example</h4>
+      <pre id="demo4">day start
+assignTask i = 1
+chalo meeting kre 3
+  reportKaro "👥 Standup ho raha"
+finally over huyi
+day end</pre>
+      <button class="copy-btn" onclick="copyDemo('demo4')">📋 Copy</button>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript version of your interpreter
+    let variables = {};
+    let manager_mood = "neutral";
+    let output = "";
+
+    function copyDemo(demoId) {
+      const demoText = document.getElementById(demoId).innerText;
+      document.getElementById("code").value = demoText;
+    }
+
+    function runProgram(lines) {
+      variables = {};
+      output = "";
+      
+      if (!lines || lines.length < 1) {
+        return "☠️ Program mein kuch nahi hai";
+      }
+      if (lines[0] !== "day start") {
+        return "☠️ Program bina 'day start' ke chalu kar diya";
+      }
+      if (lines[lines.length - 1] !== "day end") {
+        return "☠️ Bina 'day end' ke program khatam kar diya";
+      }
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        
+        if (line === "day start") {
+          output += "🌅 Day started. Ho gaya siyapa start\n";
+        } else if (line === "day end") {
+          output += "🌇 Day ended. Ho gaya siyapa khatam\n";
+        } else if (line.startsWith("reportKaro")) {
+          const start = line.indexOf('"') + 1;
+          const end = line.lastIndexOf('"');
+          if (start > 0 && end > start) {
+            const message = line.substring(start, end);
+            output += message + "\n";
+          } else {
+            // Handle variable output
+            const varName = line.split(" ")[1];
+            if (variables[varName] !== undefined) {
+              output += variables[varName] + "\n";
+            }
+          }
+        } else if (line.startsWith("assignTask")) {
+          const parts = line.split(" ");
+          if (parts.length >= 4 && parts[2] === "=") {
+            variables[parts[1]] = parseInt(parts[3]);
+          }
+        } else if (line.startsWith("agar")) {
+          const condition = line.substring(5).trim();
+          if (condition === "(5 > 3)") {
+            i++; // Skip to next line
+            const nextLine = lines[i].trim();
+            if (nextLine.startsWith("reportKaro")) {
+              const start = nextLine.indexOf('"') + 1;
+              const end = nextLine.lastIndexOf('"');
+              output += nextLine.substring(start, end) + "\n";
+            }
+          }
+        } else if (line.startsWith("chalo meeting kre")) {
+          const count = parseInt(line.split(" ")[3]);
+          for (let j = 0; j < count; j++) {
+            output += "👥 Standup ho raha\n";
+          }
+        }
+      }
+      
+      output += "\n🌟 Program execution complete. Tera promotion pakka";
+      return output;
+    }
+
+    document.getElementById("codeForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const code = document.getElementById("code").value;
+      const lines = code.split('\n').filter(line => line.trim());
+      const result = runProgram(lines);
+      document.getElementById("output").textContent = result;
+    });
+  </script>
+</body>
+</html>
